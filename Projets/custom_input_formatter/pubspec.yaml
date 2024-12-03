@@ -1,11 +1,12 @@
 name: custom_input_formatter
 description: "A Flutter package providing customizable input formatters for amounts and numbers with group separators."
 version: 1.0.0
-homepage: https://github.com/yourusername/custom_input_formatter
+homepage: https://github.com/inossan-dev/custom_input_formatter.git
 #publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ^3.5.3
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:
