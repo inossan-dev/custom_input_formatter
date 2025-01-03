@@ -1,73 +1,197 @@
 # Custom Input Formatter
 
-A Flutter package providing customizable input formatters for amounts and numbers with group separators.
+A Flutter package providing advanced input formatters for various number formats including amounts, phone numbers, credit cards, and more. This formatter offers flexible formatting options with customizable separators and grouping patterns.
 
 ## Features
 
-- Format numbers with custom group separators
-- Support for both right-to-left (amounts) and left-to-right (numbers) formatting
-- Customizable group size
-- Optional maximum length constraint
-- Automatic cursor positioning
+The package provides comprehensive formatting support for various numeric input types:
 
-## Getting started
+- Amount formatting with thousand separators
+- Phone number formatting with customizable patterns
+- Credit card number formatting (4-digit groups)
+- Social security number formatting
+- Bank account number formatting
+- Date formatting (DD MM YYYY)
+- Time formatting (HH MM SS)
+- Postal code validation
+- Generic number formatting with custom patterns
+
+## Installation
 
 Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  custom_input_formatter: ^1.0.0
+  custom_input_formatter: ^2.0.0
 ```
 
-## Usage
+## Basic Usage
 
-### Format a phone number (grouped by 2)
+### Format Types
+
+The formatter supports multiple predefined format types:
 
 ```dart
 TextField(
   inputFormatters: [
     CustomNumberInputFormatter(
-      separator: ' ',
+      formatType: FormatType.amount,
+    ),
+  ],
+  keyboardType: TextInputType.number,
+)
+```
+
+Available format types include:
+- `FormatType.amount` - For currency amounts (e.g., "1 000 000")
+- `FormatType.phoneNumber` - For phone numbers (e.g., "07 98 87 66 77")
+- `FormatType.creditCard` - For credit card numbers (e.g., "4242 4242 4242 4242")
+- `FormatType.socialSecurity` - For social security numbers (e.g., "123-45-6789")
+- `FormatType.bankAccount` - For bank account numbers
+- `FormatType.date` - For dates (e.g., "31 12 2024")
+- `FormatType.time` - For time (e.g., "23 59 59")
+- `FormatType.postalCode` - For postal codes
+- `FormatType.number` - For generic numbers
+
+## Advanced Usage
+
+### Custom Formatting Patterns
+
+You can create custom formatting patterns by specifying the separator and group size:
+
+```dart
+// Custom grouping pattern (e.g., XX-XXX-XX)
+TextField(
+  inputFormatters: [
+    CustomNumberInputFormatter(
+      separator: '-',
       groupBy: 2,
-      maxLength: 10,
-      rightToLeft: false,
+      maxLength: 7,
     ),
   ],
-  keyboardType: TextInputType.number,
 )
 ```
 
-### Format an amount (grouped by 3)
+### Bank Account Number Formatting
 
 ```dart
 TextField(
   inputFormatters: [
     CustomNumberInputFormatter(
-      separator: ' ',
-      groupBy: 3,
-      maxLength: 7,
-      rightToLeft: true,
+      formatType: FormatType.bankAccount,
+      // Will automatically use the pattern: XXXX XXXX XXXX XXXX XXXX XXX
     ),
   ],
-  keyboardType: TextInputType.number,
 )
 ```
 
-## Parameters
+### Date Input Formatting
 
-- `separator`: The character used to separate groups (default: ' ')
-- `groupBy`: The number of characters in each group (default: 3)
-- `maxLength`: Optional maximum length of the input (excluding separators)
-- `rightToLeft`: Whether to group digits from right to left (true for amounts) or left to right (false for numbers)
+```dart
+TextField(
+  inputFormatters: [
+    CustomNumberInputFormatter(
+      formatType: FormatType.date,
+      // Will automatically format as: DD MM YYYY
+    ),
+  ],
+)
+```
+
+## Properties
+
+The CustomNumberInputFormatter class accepts the following properties:
+
+| Property    | Type        | Default     | Description                                           |
+|------------|-------------|-------------|-------------------------------------------------------|
+| separator  | String      | ' '         | Character used to separate groups                     |
+| groupBy    | int         | 3           | Number of characters in each group                    |
+| maxLength  | int?        | null        | Maximum length (excluding separators)                 |
+| formatType | FormatType  | FormatType.number | Type of formatting to apply                     |
+
+### Default Maximum Lengths
+
+Each format type comes with predefined maximum lengths:
+
+- Credit Card: 16 digits
+- Social Security: 9 digits
+- Postal Code: 5 digits
+- Date: 8 digits (DDMMYYYY)
+- Time: 6 digits (HHMMSS)
+
+### Format-Specific Grouping Patterns
+
+Pre-configured grouping patterns for specific formats:
+
+- Credit Card: [4, 4, 4, 4]
+- Social Security: [3, 2, 4]
+- Bank Account: [4, 4, 4, 4, 4, 3]
+- Date: [2, 2, 4]
+- Time: [2, 2, 2]
 
 ## Examples
 
-- Phone number: "0798876677" → "07 98 87 66 77"
-- Amount: "1000000" → "1 000 000"
+### Amount Formatting
+```dart
+// Input: "1000000"
+// Output: "1 000 000"
+TextField(
+  inputFormatters: [
+    CustomNumberInputFormatter(
+      formatType: FormatType.amount,
+    ),
+  ],
+)
+```
 
-## Additional information
+### Credit Card Input
+```dart
+// Input: "4242424242424242"
+// Output: "4242 4242 4242 4242"
+TextField(
+  inputFormatters: [
+    CustomNumberInputFormatter(
+      formatType: FormatType.creditCard,
+    ),
+  ],
+)
+```
 
-For more examples, check out the example app in the `example` directory.
+### Social Security Number
+```dart
+// Input: "123456789"
+// Output: "123-45-6789"
+TextField(
+  inputFormatters: [
+    CustomNumberInputFormatter(
+      formatType: FormatType.socialSecurity,
+    ),
+  ],
+)
+```
+
+## Best Practices
+
+1. Always specify the appropriate keyboard type:
+```dart
+keyboardType: TextInputType.number
+```
+
+2. Consider combining with other formatters for additional validation:
+```dart
+inputFormatters: [
+  FilteringTextInputFormatter.digitsOnly,
+  CustomNumberInputFormatter(
+    formatType: FormatType.amount,
+  ),
+],
+```
+
+3. Handle empty and invalid inputs appropriately in your form validation logic.
+
+## Contribution
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

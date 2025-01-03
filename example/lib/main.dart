@@ -1,3 +1,4 @@
+import 'package:custom_input_formatter/custom_input_formatter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Custom Input Formatter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Custom Input Formatter Demo'),
     );
   }
 }
@@ -30,46 +31,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // Pour un montant
+    final amountFormatter = CustomNumberInputFormatter(
+      formatType: FormatType.amount,
+      separator: '.',
+      groupBy: 3,
+    );
+
+    // Pour un numéro de téléphone
+    final phoneFormatter = CustomNumberInputFormatter(
+      formatType: FormatType.phoneNumber,
+      separator: ':',
+      groupBy: 2,
+      maxLength: 10,
+    );
+
+    // Pour un nombre
+    final numberFormatter = CustomNumberInputFormatter(
+      formatType: FormatType.number,
+      separator: ' ',
+      groupBy: 3,
+      maxLength: 10,
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            inputFormatters: [amountFormatter],
+            keyboardType: TextInputType.number,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
