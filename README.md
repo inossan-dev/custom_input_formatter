@@ -2,6 +2,62 @@
 
 A Flutter package providing advanced input formatters for various number formats including amounts, phone numbers, credit cards, and more. This formatter offers flexible formatting options with customizable separators and grouping patterns.
 
+## Breaking Changes in 2.0.0
+
+Version 2.0.0 introduces significant changes to improve formatting capabilities and type safety. If you're upgrading from version 1.x, please note the following changes:
+
+### Constructor Parameter Changes
+
+The `rightToLeft` boolean parameter has been replaced with the new `formatType` enum. To migrate your existing code:
+
+Previous implementation (1.x):
+```dart
+CustomNumberInputFormatter(
+  rightToLeft: true,
+  separator: ' ',
+  groupBy: 3,
+)
+```
+
+New implementation (2.0.0):
+```dart
+CustomNumberInputFormatter(
+  formatType: FormatType.amount,  // For right-to-left formatting
+  separator: ' ',
+  groupBy: 3,
+)
+```
+
+### Format Type Specification
+
+Instead of manually configuring formatting patterns, you should now use the appropriate `FormatType` for your use case. This ensures consistent formatting across your application:
+
+Previous approach (1.x):
+```dart
+// Phone number formatting
+CustomNumberInputFormatter(
+  rightToLeft: false,
+  separator: ' ',
+  groupBy: 2,
+  maxLength: 10,
+)
+```
+
+New approach (2.0.0):
+```dart
+// Phone number formatting
+CustomNumberInputFormatter(
+  formatType: FormatType.phoneNumber,
+  // Other parameters are optional as they're preset by the format type
+)
+```
+
+### Default Values
+
+Format-specific configurations are now handled automatically based on the selected `FormatType`. You no longer need to specify `groupBy` and `maxLength` for standard format types. These will be ignored if a predefined format type is used.
+
+
+
 ## Features
 
 The package provides comprehensive formatting support for various numeric input types:

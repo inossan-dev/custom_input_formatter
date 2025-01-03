@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2024-01-03
+
+- Update readme
+
 ## [2.0.0] - 2024-01-02
 
 This major release introduces comprehensive formatting support for various numeric input types through a new FormatType enum.
